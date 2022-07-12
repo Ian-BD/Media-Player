@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -30,6 +31,7 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     HomeModule,
     DetailModule,
     AppRoutingModule,
+    NgIdleKeepaliveModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
