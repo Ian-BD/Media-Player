@@ -1,9 +1,10 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, protocol, screen } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
 
 let win: BrowserWindow = null;
+
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
 
@@ -22,6 +23,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
       contextIsolation: false,  // false if you want to run e2e test with Spectron
+      webSecurity: false,
     },
   });
 
@@ -57,6 +59,51 @@ function createWindow(): BrowserWindow {
 
   return win;
 }
+
+function getTracks() {
+  const cwd = process.cwd();
+  fs.readdir('.', {withFileTypes: true}, (err, files) => {
+      if (!err) {
+          const re = /(?:\.([^.]+))?$/;
+          const tracks = files
+            .filter(file => file.isFile() && ['mp3'].includes(re.exec(file.name)[1]))
+            .map(file => `file://${cwd}/${file.name}`);
+          win.webContents.send("getMusicResponse", tracks);
+      }
+  });
+}
+
+function isRoot() {
+  return path.parse(process.cwd()).root == process.cwd();
+}
+
+function getDirectory() {
+  fs.readdir('.', {withFileTypes: true}, (err, files) => {
+      if (!err) {
+          const directories = files
+            .filter(file => file.isDirectory())
+            .map(file => file.name);
+          if (!isRoot()) {
+              directories.unshift('..');
+          }
+          win.webContents.send("getDirectoryResponse", directories);
+      }
+  });
+}
+
+ipcMain.on("navigateDirectory", (event, path) => {
+  console.log("Current directory:", __dirname);
+  process.chdir(path);
+  getTracks();
+  getDirectory();
+});
+
+app.whenReady().then(() => {
+  protocol.registerFileProtocol('file', (request, callback) => {
+    const pathname = decodeURI(request.url.replace('file:///', ''));
+    callback(pathname);
+  });
+});
 
 try {
   // This method will be called when Electron has finished

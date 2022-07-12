@@ -1,0 +1,7 @@
+<p>player works!</p>
+<input type="range" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
+    (input)="onSliderChangeEnd($event.target.value)" [disabled]="!canPlay()" />
+<input (click)="back()" type="button" value="Back" [disabled]="!canPlay() || isFirstPlaying()" />
+<input (click)="stop()" type="button" value="Stop" [disabled]="!canPlay()" />
+<input (click)="togglePlayback()" type="button" value="Play/Pause" [disabled]="!canPlay()" />
+<input (click)="next()" type="button" value="Next" [disabled]="!canPlay() || isLastPlaying()" />
