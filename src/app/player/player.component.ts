@@ -18,6 +18,8 @@ export class PlayerComponent implements OnInit {
 
   state: StreamState;
 
+  shuffle: boolean = false;
+
   constructor(
     private musicService: MusicService,
     private tracksService: TracksService,
@@ -26,13 +28,11 @@ export class PlayerComponent implements OnInit {
     this.musicService.getState().subscribe(state => {
       this.state = state;
 
-      if(state.currentTime >= state.duration && state.playing === false){
-        if(!this.isLastPlaying()){
+      if (state.currentTime >= state.duration && state.playing === false) {
+        if (!this.isLastPlaying() || this.shuffle) {
           this.next();
         }
       }
-
-      console.log(state);
     });
   }
 
@@ -47,6 +47,7 @@ export class PlayerComponent implements OnInit {
       let file = this.currentTrackList[index];
 
       this.openTrack(file, index);
+      this.pause();
 
       this.changeDetectionRef.detectChanges();
 
@@ -75,9 +76,23 @@ export class PlayerComponent implements OnInit {
   }
 
   next() {
-    let index = this.currentTrack.index + 1;
+
+    let index : number;
+
+    console.log(this.shuffle);
+
+    if (this.shuffle) {
+      index = this.getRandomInt(this.currentTrackList.length - 1);
+    } else {
+      index = this.currentTrack.index + 1;
+    }
+
     let file = this.currentTrackList[index];
     this.openTrack(file, index);
+  }
+
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
   }
 
   back() {
@@ -100,6 +115,10 @@ export class PlayerComponent implements OnInit {
 
   canPlay() {
     return !this.state?.error || !this.currentTrack.index === undefined;
+  }
+
+  pause() {
+    this.musicService.pause();
   }
 
   togglePlayback() {
