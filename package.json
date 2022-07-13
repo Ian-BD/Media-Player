@@ -55,6 +55,7 @@
     "@angular/router": "13.3.1",
     "@ng-idle/core": "11.1.0",
     "@ng-idle/keepalive": "11.0.3",
+    "glob": "8.0.3",
     "moment": "2.29.4",
     "rxjs": "7.5.5",
     "tslib": "^2.1.0",
