@@ -12,18 +12,18 @@ export class TracksService {
 
   constructor() {
     
-    electron.ipcRenderer.on('getMusicResponse', (event, tracks) => {
+    electron.ipcRenderer.on('getTrackResponse', (event, tracks) => {
       this.tracks.next(tracks);
     });
 
-    electron.ipcRenderer.on('getDirectoryResponse', (event, directory) => {
+    electron.ipcRenderer.on('getTrackDirectoryResponse', (event, directory) => {
       this.directory.next(directory);
     });
 
    }
 
    navigateDirectory(path){
-    electron.ipcRenderer.send('navigateDirectory', path);
+    electron.ipcRenderer.send('setTrackDirectory', path);
   }
 
 }
