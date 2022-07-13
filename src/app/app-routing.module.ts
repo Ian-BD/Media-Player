@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PlayerRoutingModule } from './player/player-routing.module';
 import { PageNotFoundComponent } from './shared/components';
 
+import { PlayerRoutingModule } from './player/player-routing.module';
+import { MainMenuRoutingModule } from './main-menu/main-menu-routing.module';
+import { SearchRoutingModule } from './search/search-routing.module';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'player',
+    redirectTo: 'main-menu',
     pathMatch: 'full'
   },
   {
@@ -19,7 +21,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    PlayerRoutingModule
+    MainMenuRoutingModule,
+    SearchRoutingModule,
+    PlayerRoutingModule,
   ],
   exports: [RouterModule]
 })

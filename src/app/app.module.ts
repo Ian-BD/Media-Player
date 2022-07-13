@@ -12,25 +12,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomeModule } from './home/home.module';
-import { DetailModule } from './detail/detail.module';
-
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
+import { SearchComponent } from './search/search.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { SearchFilterPipe } from './pipes/search-filter.pipe';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
-  declarations: [AppComponent, PlayerComponent],
+  declarations: [AppComponent, PlayerComponent, SearchComponent, MainMenuComponent, SearchFilterPipe],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     CoreModule,
     SharedModule,
-    HomeModule,
-    DetailModule,
     AppRoutingModule,
     NgIdleKeepaliveModule.forRoot(),
     TranslateModule.forRoot({
