@@ -1,20 +1,35 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StreamState } from '../interfaces/stream-state';
+import { CurrentTrack } from '../interfaces/current-track';
 import { MusicService } from '../services/music.service';
 import { TracksService } from '../services/tracks.service';
-
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
+
 export class PlayerComponent implements OnInit {
 
   directory: Array<any> = [];
-  currentTrackList: Array<any> = [];
-  currentTrack: any = {};
+  private currentTrackList: Array<any> = [];
+
+  setTrackList(newTrackList) {
+    this.currentTrackList = newTrackList;
+    this.currentTrack = { index: -1, file: ''};
+    this.next();
+  }
+
+  private currentTrack: CurrentTrack = {
+    index: -1,
+    file: ""
+  }
+
+  getCurrentTrack(){
+    return this.currentTrack;
+  }
 
   state: StreamState;
 
@@ -38,16 +53,12 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log(this.currentTrack);
+
     this.tracksService.tracks.subscribe((value) => {
 
-      this.currentTrackList = value;
+      this.setTrackList(value);
       console.log(this.currentTrackList);
-
-      let index = 0;
-      let file = this.currentTrackList[index];
-
-      this.openTrack(file, index);
-      this.pause();
 
       this.changeDetectionRef.detectChanges();
 
@@ -59,7 +70,7 @@ export class PlayerComponent implements OnInit {
       this.changeDetectionRef.detectChanges();
     });
 
-    this.navigateDirectory("C:/Users/Ian/Music/Stream_Music");
+    this.navigateDirectory("C:/Users/Ian/Music/Hybrid Theory");
 
   }
 
@@ -71,6 +82,7 @@ export class PlayerComponent implements OnInit {
 
   openTrack(file, index) {
     this.currentTrack = { index, file };
+    console.log(this.currentTrack);
     this.stop();
     this.playMusic(file);
   }
@@ -84,6 +96,7 @@ export class PlayerComponent implements OnInit {
     if (this.shuffle) {
       index = this.getRandomInt(this.currentTrackList.length - 1);
     } else {
+      console.log(this.currentTrack.index);
       index = this.currentTrack.index + 1;
     }
 
@@ -126,7 +139,7 @@ export class PlayerComponent implements OnInit {
     this.musicService.togglePlay();
   }
 
-  onSliderChangeEnd(change) {
+  OnSeekToEnd(change) {
     this.musicService.seekTo(change);
   }
 
