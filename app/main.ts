@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, protocol, screen } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
+import { glob } from 'glob';
 
 let win: BrowserWindow = null;
 
@@ -60,24 +61,28 @@ function createWindow(): BrowserWindow {
   return win;
 }
 
-function getTracks() {
+function getTracks(channel) {
   const cwd = process.cwd();
+  console.log(cwd);
   fs.readdir('.', {withFileTypes: true}, (err, files) => {
       if (!err) {
           const re = /(?:\.([^.]+))?$/;
           const tracks = files
             .filter(file => file.isFile() && ['mp3'].includes(re.exec(file.name)[1]))
             .map(file => `file://${cwd}/${file.name}`);
-          win.webContents.send("getMusicResponse", tracks);
+            win.webContents.send(channel, tracks);
       }
   });
 }
 
-function isRoot() {
-  return path.parse(process.cwd()).root == process.cwd();
+function getAllTracks(path) {
+
+  glob(path + '/**/*.mp3', (err, files) => {
+    win.webContents.send("getAllTracksResponse", files);
+  })
 }
 
-function getDirectory() {
+function getDirectory(channel) {
   fs.readdir('.', {withFileTypes: true}, (err, files) => {
       if (!err) {
           const directories = files
@@ -86,16 +91,30 @@ function getDirectory() {
           if (!isRoot()) {
               directories.unshift('..');
           }
-          win.webContents.send("getDirectoryResponse", directories);
+          win.webContents.send(channel, directories);
       }
   });
+
+  return [];
+}
+
+function isRoot() {
+  return path.parse(process.cwd()).root == process.cwd();
 }
 
 ipcMain.on("navigateDirectory", (event, path) => {
-  console.log("Current directory:", __dirname);
   process.chdir(path);
-  getTracks();
-  getDirectory();
+  getTracks("getMusicResponse");
+  let directories = getDirectory("getDirectoryResponse");
+});
+
+ipcMain.on("setTrackDirectory", (event, path) => {
+  process.chdir(path);
+  getTracks("getTrackResponse");
+});
+
+ipcMain.on("findAllTracks", (event, path) => {
+  getAllTracks(path);
 });
 
 app.whenReady().then(() => {
