@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StreamState } from '../interfaces/stream-state';
-import { MusicService } from '../music.service';
+import { MusicService } from '../services/music.service';
 import { TracksService } from '../services/tracks.service';
 
 

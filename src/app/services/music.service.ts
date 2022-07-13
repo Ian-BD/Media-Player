@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
-import { StreamState } from './interfaces/stream-state';
+import { StreamState } from '../interfaces/stream-state';
 
 @Injectable({
   providedIn: 'root'

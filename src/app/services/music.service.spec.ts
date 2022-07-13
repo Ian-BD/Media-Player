@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import * as exp from 'constants';
 
 import { MusicService } from './music.service';
-import { StreamState } from './interfaces/stream-state';
-import { doesNotMatch } from 'assert';
+import { StreamState } from '../interfaces/stream-state';
 
 describe('MusicService', () => {
   let service: MusicService;
