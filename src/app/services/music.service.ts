@@ -39,7 +39,10 @@ export class MusicService {
     return this.stateChange.asObservable();
   }
 
-  constructor() { }
+  constructor() { 
+    //TODO:Remove this
+    this.setVolume(.2);
+  }
 
   playStream(url){
     return this.streamAudio(url).pipe(takeUntil(this.stop$));
