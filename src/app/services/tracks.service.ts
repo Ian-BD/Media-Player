@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CurrentTrack } from '../interfaces/current-track';
 const electron = (<any>window).require('electron');
 
 @Injectable({
@@ -7,6 +8,7 @@ const electron = (<any>window).require('electron');
 })
 export class TracksService {
 
+  currentTrack = new BehaviorSubject<CurrentTrack>({index: -1, file: ""});
   tracks = new BehaviorSubject<string[]>([]);
   directory = new BehaviorSubject<string[]>([]);
 
@@ -20,6 +22,10 @@ export class TracksService {
       this.directory.next(directory);
     });
 
+   }
+
+   nextTrack(newTrack: CurrentTrack){
+    this.currentTrack.next(newTrack);
    }
 
    setTracks(tracks){

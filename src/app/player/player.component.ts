@@ -18,7 +18,7 @@ export class PlayerComponent implements OnInit {
 
   setTrackList(newTrackList) {
     this.currentTrackList = newTrackList;
-    this.currentTrack = { index: -1, file: ''};
+    this.tracksService.currentTrack.next({ index: -1, file: ''});
     this.next();
   }
 
@@ -28,7 +28,7 @@ export class PlayerComponent implements OnInit {
   }
 
   getCurrentTrack(){
-    return this.currentTrack;
+    return this.tracksService.currentTrack;
   }
 
   state: StreamState;
@@ -53,7 +53,7 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.currentTrack);
+    console.log(this.tracksService.currentTrack);
 
     this.tracksService.tracks.subscribe((value) => {
 
@@ -70,6 +70,11 @@ export class PlayerComponent implements OnInit {
       this.changeDetectionRef.detectChanges();
     });
 
+    this.tracksService.currentTrack.subscribe((value) => {
+      this.currentTrack = value;
+      console.log(this.currentTrack);
+    })
+
     this.navigateDirectory("C:/Users/Ian/Music/Hybrid Theory");
 
   }
@@ -81,8 +86,8 @@ export class PlayerComponent implements OnInit {
   }
 
   openTrack(file, index) {
-    this.currentTrack = { index, file };
-    console.log(this.currentTrack);
+    this.tracksService.nextTrack({ index, file });
+    console.log(this.tracksService);
     this.stop();
     this.playMusic(file);
   }
@@ -96,7 +101,6 @@ export class PlayerComponent implements OnInit {
     if (this.shuffle) {
       index = this.getRandomInt(this.currentTrackList.length - 1);
     } else {
-      console.log(this.currentTrack.index);
       index = this.currentTrack.index + 1;
     }
 
