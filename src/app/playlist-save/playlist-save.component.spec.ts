@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PlaylistSaveComponent } from './playlist-save.component';
 
@@ -8,7 +10,8 @@ describe('PlaylistSaveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PlaylistSaveComponent ]
+      declarations: [ PlaylistSaveComponent ],
+      imports: [RouterTestingModule ]
     })
     .compileComponents();
   });

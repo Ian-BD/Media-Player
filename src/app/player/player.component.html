@@ -1,6 +1,6 @@
 <p>player works!</p>
 <input type="range" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
-    (input)="OnSeekToEnd($event.target.value)" [disabled]="!canPlay()" />
+    (input)="OnSeekTo($event.target.value)" [disabled]="!canPlay()" />
 <label for="shuffle">Shuffle</label>
 <input [(ngModel)]="shuffle" type="checkbox" value="Shuffle" name="shuffle" />
 <input (click)="back()" type="button" value="Back" [disabled]="!canPlay() || isFirstPlaying()" />

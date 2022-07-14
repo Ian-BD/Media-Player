@@ -40,8 +40,6 @@ export class MusicService {
   }
 
   constructor() { 
-    //TODO:Remove this
-    this.setVolume(.2);
   }
 
   playStream(url){
@@ -107,6 +105,10 @@ export class MusicService {
 
   seekTo(seconds){
     this.audio.currentTime = seconds;
+  }
+
+  currentTime(){
+    return this.audio.currentTime;
   }
 
   setVolume(volume){

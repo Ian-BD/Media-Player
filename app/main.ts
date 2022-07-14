@@ -63,7 +63,6 @@ function createWindow(): BrowserWindow {
 
 function getTracks(channel) {
   const cwd = process.cwd();
-  console.log(cwd);
   fs.readdir('.', {withFileTypes: true}, (err, files) => {
       if (!err) {
           const re = /(?:\.([^.]+))?$/;
@@ -74,6 +73,8 @@ function getTracks(channel) {
       }
   });
 }
+
+
 
 function getAllTracks(path) {
 
@@ -105,12 +106,7 @@ function isRoot() {
 ipcMain.on("navigateDirectory", (event, path) => {
   process.chdir(path);
   getTracks("getMusicResponse");
-  let directories = getDirectory("getDirectoryResponse");
-});
-
-ipcMain.on("setTrackDirectory", (event, path) => {
-  process.chdir(path);
-  getTracks("getTrackResponse");
+  getDirectory("getDirectoryResponse");
 });
 
 ipcMain.on("findAllTracks", (event, path) => {

@@ -4,6 +4,7 @@ import { StreamState } from '../interfaces/stream-state';
 import { CurrentTrack } from '../interfaces/current-track';
 import { MusicService } from '../services/music.service';
 import { TracksService } from '../services/tracks.service';
+import { isThrowStatement } from 'typescript/lib/tsserverlibrary';
 
 @Component({
   selector: 'app-player',
@@ -13,23 +14,8 @@ import { TracksService } from '../services/tracks.service';
 
 export class PlayerComponent implements OnInit {
 
-  directory: Array<any> = [];
   private currentTrackList: Array<any> = [];
-
-  setTrackList(newTrackList) {
-    this.currentTrackList = newTrackList;
-    this.tracksService.currentTrack.next({ index: -1, file: ''});
-    this.next();
-  }
-
-  private currentTrack: CurrentTrack = {
-    index: -1,
-    file: ""
-  }
-
-  getCurrentTrack(){
-    return this.tracksService.currentTrack;
-  }
+  private currentTrack: CurrentTrack;
 
   state: StreamState;
 
@@ -37,8 +23,19 @@ export class PlayerComponent implements OnInit {
 
   constructor(
     private musicService: MusicService,
-    private tracksService: TracksService,
-    private changeDetectionRef: ChangeDetectorRef) {
+    private tracksService: TracksService) {
+  }
+
+  ngOnInit(): void {
+
+    this.tracksService.tracks.subscribe((value) => {
+      this.currentTrackList = value;
+    })
+
+    this.tracksService.currentTrack.subscribe((value) => {
+      this.currentTrack = value;
+      this.openTrack(this.currentTrack.file, this.currentTrack.index);
+    })
 
     this.musicService.getState().subscribe(state => {
       this.state = state;
@@ -49,31 +46,6 @@ export class PlayerComponent implements OnInit {
         }
       }
     });
-  }
-
-  ngOnInit(): void {
-
-    console.log(this.tracksService.currentTrack);
-
-    this.tracksService.tracks.subscribe((value) => {
-
-      this.setTrackList(value);
-      console.log(this.currentTrackList);
-
-      this.changeDetectionRef.detectChanges();
-
-    })
-
-    this.tracksService.directory.subscribe((value) => {
-      this.directory = value;
-      console.log(this.directory);
-      this.changeDetectionRef.detectChanges();
-    });
-
-    this.tracksService.currentTrack.subscribe((value) => {
-      this.currentTrack = value;
-      console.log(this.currentTrack);
-    })
 
     this.navigateDirectory("C:/Users/Ian/Music/Hybrid Theory");
 
@@ -86,17 +58,13 @@ export class PlayerComponent implements OnInit {
   }
 
   openTrack(file, index) {
-    this.tracksService.nextTrack({ index, file });
-    console.log(this.tracksService);
     this.stop();
     this.playMusic(file);
   }
 
   next() {
 
-    let index : number;
-
-    console.log(this.shuffle);
+    let index: number;
 
     if (this.shuffle) {
       index = this.getRandomInt(this.currentTrackList.length - 1);
@@ -105,7 +73,7 @@ export class PlayerComponent implements OnInit {
     }
 
     let file = this.currentTrackList[index];
-    this.openTrack(file, index);
+    this.tracksService.nextTrack({index: index, file: file});
   }
 
   getRandomInt(max) {
@@ -115,7 +83,23 @@ export class PlayerComponent implements OnInit {
   back() {
     let index = this.currentTrack.index - 1;
     let file = this.currentTrackList[index];
-    this.openTrack(file, index);
+    this.tracksService.nextTrack({index: index, file: file});
+  }
+
+  stop() {
+    this.musicService.stop();
+  }
+
+  pause() {
+    this.musicService.pause();
+  }
+
+  togglePlayback() {
+    this.musicService.togglePlay();
+  }
+
+  OnSeekTo(change) {
+    this.musicService.seekTo(change);
   }
 
   isFirstPlaying() {
@@ -126,25 +110,8 @@ export class PlayerComponent implements OnInit {
     return this.currentTrack.index === this.currentTrackList.length - 1;
   }
 
-  stop() {
-    this.musicService.stop();
-  }
-
   canPlay() {
     return !this.state?.error || !this.currentTrack.index === undefined;
-  }
-
-  pause() {
-    this.musicService.pause();
-  }
-
-  togglePlayback() {
-    console.log('Toggling');
-    this.musicService.togglePlay();
-  }
-
-  OnSeekToEnd(change) {
-    this.musicService.seekTo(change);
   }
 
   navigateDirectory(path) {

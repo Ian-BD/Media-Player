@@ -10,16 +10,11 @@ export class TracksService {
 
   currentTrack = new BehaviorSubject<CurrentTrack>({index: -1, file: ""});
   tracks = new BehaviorSubject<string[]>([]);
-  directory = new BehaviorSubject<string[]>([]);
 
   constructor() {
     
     electron.ipcRenderer.on('getTrackResponse', (event, tracks) => {
-      this.tracks.next(tracks);
-    });
-
-    electron.ipcRenderer.on('getTrackDirectoryResponse', (event, directory) => {
-      this.directory.next(directory);
+      this.setTracks(tracks);
     });
 
    }
@@ -29,9 +24,8 @@ export class TracksService {
    }
 
    setTracks(tracks){
-    console.log(this.tracks);
-    console.log(tracks);
     this.tracks.next(tracks);
+    this.currentTrack.next({ index: 0, file: tracks[0] });
    }
 
    navigateDirectory(path){

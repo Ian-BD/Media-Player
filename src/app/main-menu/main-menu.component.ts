@@ -20,6 +20,8 @@ export class MainMenuComponent implements OnInit {
 
     this.tracksService.currentTrack.subscribe((value) => {
 
+      console.log("Menu spotted current Track change");
+      console.log(value);
       this.trackName = value.file.replace(/\.[^/.]+$/, ""); //Remove .*
       this.trackName = this.trackName.substring(this.trackName.lastIndexOf('/')+1, this.trackName.length); //Remove file path
 

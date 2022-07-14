@@ -16,7 +16,7 @@ describe('MusicService', () => {
 
     stateSubscription = service.getState().subscribe(state => {
       currentState = state;
-      console.log(state);
+      console.log(currentState);
     });
   });
 
@@ -30,56 +30,37 @@ describe('MusicService', () => {
   });
 
   it('should play music', () => {
-    console.log(currentState);
-    expect(currentState.playing).toBeTruthy;
+    expect(currentState.playing).toBeTrue;
   });
 
-  // it('should pause music', () => {
+  it('should pause music', () => {
+    service.pause();
+    expect(currentState.playing).toBeFalsy; 
+  });
 
-  //   service.pause();
+  it('should mute music', () => {
 
-  //   let currentState : StreamState;
+    service.mute();
 
-  //   let subscription = service.getState().subscribe(state => { 
-  //     currentState = state;
-  //   });
+    expect(service.muted).toBeTruthy();
+  });
 
-  //   subscription.unsubscribe();
-  //   expect(currentState.playing).toBeFalsy; 
-  // });
-
-  // it('should mute music', () => {
-
-  //   service.mute();
-
-  //   expect(service.muted).toBeTruthy();
-  // });
-
-  // it('should alter the volume of music', () => {
+  it('should alter the volume of music', () => {
     
-  //   let previousVolume = service.volume();
+    let previousVolume = service.volume();
 
-  //   service.setVolume(.5);
+    service.setVolume(.5);
 
-  //   expect(service.volume()).toBeLessThan(previousVolume);
+    expect(service.volume()).toBeLessThan(previousVolume);
 
-  // });
+  });
 
-  // it('should be able to seek a dfferent time in the track', () => {
+  it('should be able to seek a dfferent time in the track', () => {
     
-  //   let currentState : StreamState;
+    let previousTime = service.currentTime();
+    service.seekTo(20);
 
-  //   let subscription = service.getState().subscribe(state => { 
-  //     currentState = state;
-  //     console.log(state);
-  //   });
+    expect(service.currentTime()).toBeGreaterThan(previousTime);
 
-  //   let previousTime = currentState.currentTime;
-  //   console.log(currentState);
-  //   service.seekTo(currentState.duration / 2);
-  //   subscription.unsubscribe();
-
-  //   expect(currentState.currentTime).toBeGreaterThan(previousTime);
-
-  // });
+  });
 });

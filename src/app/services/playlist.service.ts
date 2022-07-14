@@ -13,7 +13,6 @@ export class PlaylistService {
     //Ensure array is still created even if no playlists exist
     this.playlistNames = JSON.parse(localStorage.getItem("playlists")) ?? [];
 
-    console.log('Playlist Component INIT');
     console.log(this.playlistNames);
 
   }

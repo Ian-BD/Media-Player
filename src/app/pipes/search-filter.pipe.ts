@@ -1,9 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { filter } from 'rxjs';
-import { isTemplateSpan } from 'typescript/lib/tsserverlibrary';
 
 @Pipe({
-  name: 'searchFilter'
+  name: 'searchFilter',
 })
 export class SearchFilterPipe implements PipeTransform {
 
