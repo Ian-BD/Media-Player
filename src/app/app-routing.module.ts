@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 
-import { PlayerRoutingModule } from './player/player-routing.module';
 import { MainMenuRoutingModule } from './main-menu/main-menu-routing.module';
 import { SearchMenuRoutingModule } from './search-menu/search-routing.module';
 import { PlaylistCreationRoutingModule } from './playlist-creation/playlist-creation-routing.module';
@@ -27,7 +26,6 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     MainMenuRoutingModule,
     SearchMenuRoutingModule,
-    PlayerRoutingModule,
     PlaylistCreationRoutingModule,
     PlaylistSaveRoutingModule,
     PlaylistViewRoutingModule,
