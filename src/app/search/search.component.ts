@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FilesService } from '../services/files.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { FilesService } from '../services/files.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  @Input() songSelect = false;
 
   searchTerm = '';
   filteredFiles: Array<any> =[];

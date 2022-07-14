@@ -1,7 +1,8 @@
 <p>search works!</p>
-<input type="button" (click)="setViewByTrack()" value="View by Track" [disabled]="viewByTrack===true"/>
-<input type="button" (click)="setViewByAlbum();" value="View by Album" [disabled]="viewByTrack===false"/>
-<input type="text" placeholder="search" 
-[(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+<input type="button" (click)="setViewByTrack()" value="View by Track" [disabled]="viewByTrack===true" />
+<input type="button" (click)="setViewByAlbum();" value="View by Album" [disabled]="viewByTrack===false" />
+<input type="text" placeholder="search" [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+<a routerLink="/playlist-creation" routerLinkActive="active" ariaCurrentWhenActive="page">Create a Playlist</a>
 <li (click)="navigateDirectory(directory)" *ngFor="let directory of currentDirectory;">{{directory}}</li>
-<li *ngFor="let track of currentTracks | searchFilter: searchTerm; index as i">{{track}}</li>
+<li *ngFor="let track of currentTracks | searchFilter: searchTerm; index as i"><app-track [songSelect]="songSelect" [filepath]="track"></app-track>
+</li>
