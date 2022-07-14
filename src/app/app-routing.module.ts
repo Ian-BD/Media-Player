@@ -8,6 +8,7 @@ import { SearchRoutingModule } from './search/search-routing.module';
 import { PlaylistCreationRoutingModule } from './playlist-creation/playlist-creation-routing.module';
 import { PlaylistSaveRoutingModule } from './playlist-save/playlist-save-routing.module';
 import { PlaylistViewRoutingModule } from './playlist-view/playlist-view-routing.module';
+import { CurrenTracksRoutingModule } from './current-tracks/current-tracks-routing.module';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
     PlayerRoutingModule,
     PlaylistCreationRoutingModule,
     PlaylistSaveRoutingModule,
-    PlaylistViewRoutingModule
+    PlaylistViewRoutingModule,
+    CurrenTracksRoutingModule,
   ],
   exports: [RouterModule]
 })

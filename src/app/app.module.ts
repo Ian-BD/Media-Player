@@ -21,12 +21,13 @@ import { PlaylistcreationComponent } from './playlist-creation/playlist-creation
 import { TrackComponent } from './track/track.component';
 import { PlaylistSaveComponent } from './playlist-save/playlist-save.component';
 import { PlaylistViewComponent } from './playlist-view/playlist-view.component';
+import { CurrentTracksComponent } from './current-tracks/current-tracks.component';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
-  declarations: [AppComponent, PlayerComponent, SearchComponent, MainMenuComponent, SearchFilterPipe, PlaylistcreationComponent, TrackComponent, PlaylistSaveComponent, PlaylistViewComponent],
+  declarations: [AppComponent, PlayerComponent, SearchComponent, MainMenuComponent, SearchFilterPipe, PlaylistcreationComponent, TrackComponent, PlaylistSaveComponent, PlaylistViewComponent, CurrentTracksComponent],
   imports: [
     BrowserModule,
     FormsModule,

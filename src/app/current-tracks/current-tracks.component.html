@@ -1,0 +1,6 @@
+<p>current-tracks works!</p>
+<li *ngFor="let track of currentTracks">
+    <app-track [class.currently-playing]="track == currentTrack.file" [filepath]="track"></app-track>
+</li>
+<a routerLink="/main-menu" routerLinkActive="active" ariaCurrentWhenActive="page">Back</a>
+<a routerLink="/search" routerLinkActive="active" ariaCurrentWhenActive="page">Search</a>

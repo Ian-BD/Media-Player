@@ -1,4 +1,5 @@
 <p>search works!</p>
+<a routerLink="/main-menu" routerLinkActive="active" ariaCurrentWhenActive="page">Back to player</a>
 <input type="button" (click)="setViewByTrack()" value="View by Track" [disabled]="viewByTrack===true" />
 <input type="button" (click)="setViewByAlbum();" value="View by Album" [disabled]="viewByTrack===false" />
 <input type="text" placeholder="search" [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
