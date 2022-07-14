@@ -17,12 +17,16 @@ import { PlayerComponent } from './player/player.component';
 import { SearchComponent } from './search/search.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { SearchFilterPipe } from './pipes/search-filter.pipe';
+import { PlaylistcreationComponent } from './playlist-creation/playlist-creation.component';
+import { TrackComponent } from './track/track.component';
+import { PlaylistSaveComponent } from './playlist-save/playlist-save.component';
+import { PlaylistViewComponent } from './playlist-view/playlist-view.component';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
-  declarations: [AppComponent, PlayerComponent, SearchComponent, MainMenuComponent, SearchFilterPipe],
+  declarations: [AppComponent, PlayerComponent, SearchComponent, MainMenuComponent, SearchFilterPipe, PlaylistcreationComponent, TrackComponent, PlaylistSaveComponent, PlaylistViewComponent],
   imports: [
     BrowserModule,
     FormsModule,

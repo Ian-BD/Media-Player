@@ -37,4 +37,8 @@ export class PlaylistService {
     this.playlistNames.push(name);
     localStorage.setItem("playlists", JSON.stringify(this.playlistNames));
   }
+
+  getPlaylist(name): string[] {
+    return JSON.parse(localStorage.getItem(name));
+  }
 }

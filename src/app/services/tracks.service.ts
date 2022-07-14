@@ -22,6 +22,12 @@ export class TracksService {
 
    }
 
+   setTracks(tracks){
+    console.log(this.tracks);
+    console.log(tracks);
+    this.tracks.next(tracks);
+   }
+
    navigateDirectory(path){
     electron.ipcRenderer.send('setTrackDirectory', path);
   }
