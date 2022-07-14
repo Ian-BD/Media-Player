@@ -13,8 +13,10 @@ export class PlaylistSaveComponent implements OnInit {
   constructor(private playlistService: PlaylistService, private route: Router) { }
 
   playlistName: string = '';
-
+  totalTracks: number = 0;
   ngOnInit(): void {
+
+    this.totalTracks = this.playlistService.currentPlaylist.length;
   }
 
   savePlaylist(){
